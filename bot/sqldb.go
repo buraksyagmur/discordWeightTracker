@@ -1,4 +1,4 @@
-package discordBot
+package bot
 
 import (
 	"database/sql"
@@ -19,7 +19,7 @@ func usersTable() {
 }
 
 func InitDB() {
-	db, _ = sql.Open("sqlite3", "./dcBot.db")
+	db, _ = sql.Open("sqlite3", "./dcTrackerW.db")
 	usersTable()
 
 }

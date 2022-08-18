@@ -1,10 +1,10 @@
-module discordBot
+module discordWeightTracker
 
 go 1.17
 
 require (
-	github.com/bwmarrin/discordgo v0.25.0
-	github.com/mattn/go-sqlite3 v1.14.14
+	github.com/bwmarrin/discordgo v0.26.0
+	github.com/mattn/go-sqlite3 v1.14.15
 )
 
 require (

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"discordBot/bot"
+	"discordWeightTracker/bot"
 	"fmt"
 )
 
@@ -14,14 +14,14 @@ func main() {
 	// if err != nil {
 	// 	log.Fatal(err)
 	// }
-	discordBot.InitDB()
-	err := discordBot.ReadConfig()
+	bot.InitDB()
+	err := bot.ReadConfig()
 
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
-	discordBot.Start()
+	bot.Start()
 
 	<-make(chan struct{})
 	return
