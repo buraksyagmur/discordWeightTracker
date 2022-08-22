@@ -8,7 +8,6 @@ import (
 var (
 	Token     string
 	BotPrefix string 
-
 	config *configStruct 
 )
 

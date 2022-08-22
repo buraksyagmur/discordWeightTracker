@@ -23,6 +23,7 @@ func register(s *discordgo.Session, m *discordgo.MessageCreate, uname string) {
 	if err != nil {
 		fmt.Println(err)
 	}
+	defer rows.Close()
 	if rows.Next() {
 		s.ChannelMessageSend(m.ChannelID, "you already registered"+errMessage)
 
@@ -56,7 +57,7 @@ func showAll(s *discordgo.Session, m *discordgo.MessageCreate, uname string) {
 	if len(slice) > 1 {
 		s.ChannelMessageSend(m.ChannelID, "\n"+newHistory)
 	} else {
-		if slice[0] != "" {
+		if slice[0] != "=" {
 			s.ChannelMessageSend(m.ChannelID, slice[0]+"you have only one data")
 		} else {
 			s.ChannelMessageSend(m.ChannelID, "you dont have any data")
@@ -93,18 +94,14 @@ func addNew(s *discordgo.Session, m *discordgo.MessageCreate, uname string, valu
 	} else {
 		usr.history += "+" + dt.Format("2006-02-01") + " " + value
 	}
-	stmt, err := db.Prepare("update users set history=? where username=?")
-	checkErr(err)
+	stmt, err := db.Prepare("UPDATE users SET history = ?	WHERE username = ?;")
+	if err != nil {
+		s.ChannelMessageSend(m.ChannelID, errMessage)
+		fmt.Println(err)
+	}
+	fmt.Println("thats the history", usr.history, uname)
 	defer stmt.Close()
 	stmt.Exec(usr.history, uname)
-	// stmt, err := db.Prepare("UPDATE users SET history = ?	WHERE username = ?;")
-	// if err != nil {
-	// 	s.ChannelMessageSend(m.ChannelID, errMessage)
-	// 	fmt.Println(err)
-	// }
-	// fmt.Println("thats the history", usr.history, uname)
-	// defer stmt.Close()
-	// stmt.Exec(usr.history, uname)
 	s.ChannelMessageSend(m.ChannelID, "added")
 }
 
@@ -225,11 +222,11 @@ func order66(s *discordgo.Session, m *discordgo.MessageCreate, uname string) {
 		return
 	}
 }
-func showEvery(s *discordgo.Session, m *discordgo.MessageCreate){
-users:= findUsers()
-for i:= 0 ; i< len(users);i++{
-	s.ChannelMessageSend(m.ChannelID, "\n"+users[i].username +"\n"+ users[i].history)
-}
+func showEvery(s *discordgo.Session, m *discordgo.MessageCreate) {
+	users := findUsers()
+	for i := 0; i < len(users); i++ {
+		s.ChannelMessageSend(m.ChannelID, "\n"+users[i].username+"\n"+users[i].history)
+	}
 }
 func checkErr(err error) {
 	if err != nil {
