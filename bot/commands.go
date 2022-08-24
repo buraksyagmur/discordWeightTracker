@@ -249,3 +249,8 @@ func findUsers() []user {
 	return AllUsers
 
 }
+func Sleep() {
+	for range time.Tick(time.Second * 1750) {
+		fmt.Println("I dont want to sleep")
+	}
+}

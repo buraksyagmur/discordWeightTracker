@@ -6,6 +6,7 @@ import (
 )
 
 func main() {
+	go bot.Sleep()
 	bot.InitDB()
 	err := bot.ReadConfig()
 
