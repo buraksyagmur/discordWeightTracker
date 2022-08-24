@@ -3,6 +3,7 @@ package bot
 import (
 	"fmt"
 	"strings"
+
 	"github.com/bwmarrin/discordgo"
 )
 
@@ -38,19 +39,22 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 	slice := strings.Split(m.Content, " ")
 	command := slice[0]
 	wrongCom = true
-	registered:= false
-	if command != "!register" {
-		allUsers:= findUsers()
-		if len(allUsers) < 1 {
-			s.ChannelMessageSend(m.ChannelID, "type !register")	
-			return	
-		}
-		for i:= 0; i < len(allUsers); i++ {
-			if allUsers[i].username == m.Author.Username {
-				registered= true
-			}else if (i == len(allUsers)-1 || i  < 1) && registered == false {
-				s.ChannelMessageSend(m.ChannelID, "type !register")	
-			} 
+	registered := false
+	commandSl := strings.Split(command, "")
+	if commandSl[0] == "!" {
+		if command != "!register" {
+			allUsers := findUsers()
+			if len(allUsers) < 1 {
+				s.ChannelMessageSend(m.ChannelID, "type !register")
+				return
+			}
+			for i := 0; i < len(allUsers); i++ {
+				if allUsers[i].username == m.Author.Username {
+					registered = true
+				} else if (i == len(allUsers)-1 || i < 1) && registered == false {
+					s.ChannelMessageSend(m.ChannelID, "type !register")
+				}
+			}
 		}
 	}
 	var value string
