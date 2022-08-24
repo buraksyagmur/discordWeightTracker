@@ -38,7 +38,7 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 	slice := strings.Split(m.Content, " ")
 	command := slice[0]
-	wrongCom = true
+	wrongCom = false
 	registered := false
 	commandSl := strings.Split(command, "")
 	if commandSl[0] == "!" {
@@ -56,6 +56,7 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 				}
 			}
 		}
+		wrongCom = true
 	}
 	var value string
 	if len(slice) > 1 {
